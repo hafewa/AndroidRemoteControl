@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Android Remote Control</string>
+    <string name="vid1_button_title">Video 1</string>
+    <string name="vid2_button_title">Video 2</string>
+    <string name="vid3_button_title">Video 3</string>
+    <string name="admin">admin</string>
+    <string name="adminPass">password</string>
+    <string name="data_file_name">datafile.bin</string>
+    <string name="title_activity_settings">Settings</string>
+</resources>
