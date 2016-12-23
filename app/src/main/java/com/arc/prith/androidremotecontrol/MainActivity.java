@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public native void initializeNativeComponents(String dataFilePath);
 
     public native void btnVid1_OnClick();
@@ -90,8 +91,12 @@ public class MainActivity extends AppCompatActivity {
     public native void btnVid2_OnClick();
 
     public native void btnVid3_OnClick();
-
     static {
+        // to support API 17 and lower, load all the native libraries in the order they are linked
+        System.loadLibrary("PersistentDataManager");
+        System.loadLibrary("Saveable");
+        System.loadLibrary("NetworkController");
+        System.loadLibrary("VideoPlayer");
         System.loadLibrary("native-lib");
     }
 }
