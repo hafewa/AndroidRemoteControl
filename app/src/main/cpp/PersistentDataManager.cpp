@@ -4,6 +4,7 @@
 
 #include "PersistentDataManager.h"
 #include <fstream>
+#include "Saveable.h"
 
 using namespace std;
 
@@ -22,28 +23,61 @@ void PersistentDataManager::setDataFile(std::string &path) {
     mDataFilePath= path;
 }
 
-void PersistentDataManager::LoadPersistentData()
+bool PersistentDataManager::LoadPersistentData()
 {
     // if there is no save file then this must be the first run!
-    ifstream file(mDataFilePath);
-    if (file.is_open())
+    ifstream dataFile(mDataFilePath.c_str(), std::ifstream::in);
+    if (dataFile.is_open())
     {
         string line;
-        std::getline(file, line);
+
+        while(std::getline(dataFile, line))
+        {
+            std::string::size_type delimLoc = line.find("=");
+            if (delimLoc != string::npos)
+            {
+                mDataMap[line.substr(0, delimLoc)] = line.substr(delimLoc + 1);
+            }
+        }
     }
-    else
+    return true;
+}
+
+bool PersistentDataManager::SavePersistentData()
+{
+    ofstream dataFile(mDataFilePath.c_str());
+    if(dataFile.is_open()) {
+        for (Saveable *saveable : mSaveables) {
+            saveable->Save(&dataFile);
+        }
+    }
+    return false;
+}
+
+const std::string& PersistentDataManager::GetData(const std::string &key)
+{
+    std::unordered_map<std::string, std::string>::iterator it = mDataMap.find(key);
+    std::string result = "";
+
+    if (it != mDataMap.end())
     {
-        //todo
+        result = it->second;
+    }
+
+    return std::move(result);
+}
+
+void PersistentDataManager::RegisterSaveable(Saveable *saveable)
+{
+    if(saveable) {
+        mSaveables.insert(saveable);
     }
 }
 
-void PersistentDataManager::SavePersistentData()
+void PersistentDataManager::UnregisterSaveable(Saveable *saveable)
 {
-    ofstream file(mDataFilePath);
-    if (file.is_open())
+    if(saveable)
     {
-        char line[100];
-        file << line;
+        mSaveables.erase(saveable);
     }
-    file.close();
 }

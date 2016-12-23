@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.sample_text);
         tv.setMovementMethod(new ScrollingMovementMethod());
 
-        initializeNativeComponents(getString(R.string.data_file_name));
+        initializeNativeComponents(getApplicationContext().getFilesDir() + "/" + getString(R.string.data_file_name));
 
         //hide admin credentials
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_AdminCredentials);

@@ -3,15 +3,17 @@
 //
 
 #include "NetworkController.h"
+#include "helper.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <netdb.h>
 #include <arpa/inet.h>
-#include <cstdio>
 
 using namespace std;
 
-bool NetworkController::SendUDPMessage(string &message)
+const std::string NetworkController::mIpAddrKey = "ipaddr";
+const std::string NetworkController::mPortKey = "port";
+
+bool NetworkController::SendUDPMessage(const string &message)
 {
     //send message
     if (IsInitialized()) {
@@ -43,7 +45,7 @@ NetworkController::NetworkController()
     memset(&mHostAddress, 0 , sizeof(mHostAddress));
 }
 
-void NetworkController::SetHostAddress(string &ip)
+void NetworkController::SetHostAddress(const string &ip)
 {
     inet_pton(AF_INET, ip.c_str(), &(mHostAddress.sin_addr));
 }
@@ -65,3 +67,47 @@ uint16_t NetworkController::GetCurrentHostPort() const {
 
     return ntohs(mHostAddress.sin_port);
 }
+
+NetworkController& NetworkController::getInstance() {
+    static NetworkController controller;
+    return controller;
+}
+
+void NetworkController::Init()
+{
+    PersistentDataManager& dataManager = PersistentDataManager::getInstance();
+
+    std::string data = dataManager.GetData(mIpAddrKey);
+
+    if (data.length() > 0)
+    {
+        SetHostAddress(data);
+    }
+
+    data = dataManager.GetData(mPortKey);
+
+    const int port = Helper::parseInteger(data);
+
+    if(port > 0)
+    {
+        SetHostPort(static_cast<uint16_t>(port));
+    }
+
+
+}
+void NetworkController::Save(std::ofstream *file)
+{
+    if(file)
+    {
+        (*file) << mIpAddrKey;
+        (*file) << "=";
+        (*file) << GetCurrentHostIP();
+        (*file) << "\n";
+
+        (*file) << mPortKey;
+        (*file) << "=";
+        (*file) << Helper::to_string(GetCurrentHostPort());
+        (*file) << "\n";
+    }
+}
+
