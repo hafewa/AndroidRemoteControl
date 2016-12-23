@@ -17,7 +17,13 @@
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:id="@+id/layout_AdminCredentials"
-        android:visibility="visible">
+        android:visibility="invisible"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_weight="0.48"
+            android:layout_height="wrap_content" />
 
         <EditText
             android:layout_width="match_parent"
@@ -57,20 +63,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/layout_UserInterface"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:visibility="visible"
-        android:gravity="center">
+        android:gravity="center"
+        android:weightSum="1">
 
-        <TextView
-            android:id="@+id/sample_text"
+        <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="4"
-            android:lines="4"
-            android:scrollbars="vertical"
-            android:text="Hello World!" />
+            android:layout_weight="0.15" />
 
         <Button
             android:text="@string/vid1_button_title"
@@ -78,42 +78,37 @@
             android:id="@+id/btn_Vid1"
             style="@style/Widget.AppCompat.Button.Colored"
             android:onClick="btn_Vid1_OnClick"
-            android:layout_height="120dp"
-            android:layout_below="@+id/sample_text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_height="112dp" />
 
         <Button
             android:text="@string/vid2_button_title"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
             android:id="@+id/btn_Vid2"
             style="@style/Widget.AppCompat.Button.Colored"
             android:onClick="btn_Vid2_OnClick"
-            android:layout_below="@+id/btn_Vid1"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_height="112dp" />
 
         <Button
             android:text="@string/vid3_button_title"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="112dp"
             android:id="@+id/btn_Vid3"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:onClick="btn_Vid3_OnClick"
-            android:layout_below="@+id/btn_Vid2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:onClick="btn_Vid3_OnClick"/>
 
         <Button
             android:text="..."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
             android:id="@+id/btn_RevealAdminCredentials"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_below="@+id/btn_Vid3"
-            android:layout_centerHorizontal="true"
-            android:onClick="btn_RevealAdminCredentials_OnClick" />
+            android:onClick="btn_RevealAdminCredentials_OnClick"
+            android:layout_height="40dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15" />
+
     </LinearLayout>
 
 </RelativeLayout>

@@ -3,11 +3,9 @@ package com.arc.prith.androidremotecontrol;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,10 +15,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
-        //set the scroll method of the textview
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setMovementMethod(new ScrollingMovementMethod());
 
         initializeNativeComponents(getApplicationContext().getFilesDir() + "/" + getString(R.string.data_file_name));
 
@@ -35,18 +29,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btn_Vid1_OnClick(View v) {
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(btnVid1_OnClick() + "\n" + tv.getText());
+        btnVid1_OnClick();
     }
 
     public void btn_Vid2_OnClick(View v) {
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(btnVid2_OnClick() + "\n" + tv.getText());
+        btnVid2_OnClick();
     }
 
     public void btn_Vid3_OnClick(View v) {
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(btnVid3_OnClick() + "\n" + tv.getText());
+        btnVid3_OnClick();
     }
 
     public void btn_RevealAdminCredentials_OnClick(View v)
@@ -87,17 +78,18 @@ public class MainActivity extends AppCompatActivity {
     public boolean verifyCredentials(String login, String password)
     {
         // currently we are only checking the values against the string resources
-        return login.equals(getString(R.string.admin)) && password.equals(getString(R.string.adminPass));
+        String loginLowerCase = login.trim().toLowerCase();
+        return loginLowerCase.equals(getString(R.string.admin).toLowerCase()) && password.equals(getString(R.string.adminPass));
     }
 
 
     public native void initializeNativeComponents(String dataFilePath);
 
-    public native String btnVid1_OnClick();
+    public native void btnVid1_OnClick();
 
-    public native String btnVid2_OnClick();
+    public native void btnVid2_OnClick();
 
-    public native String btnVid3_OnClick();
+    public native void btnVid3_OnClick();
 
     static {
         System.loadLibrary("native-lib");

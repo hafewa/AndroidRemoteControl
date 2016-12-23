@@ -13,34 +13,65 @@ using namespace std;
 const std::string NetworkController::mIpAddrKey = "ipaddr";
 const std::string NetworkController::mPortKey = "port";
 
-bool NetworkController::SendUDPMessage(const string &message)
+void NetworkController::SendMessage(const std::string &message) {
+    LogMessage(SendUDPMessage(message));
+}
+
+void NetworkController::LogMessage(const std::string &msg)
+{
+    if(msg.length() > 0 ) {
+        mLogIndex = (mLogIndex + 1) % MAX_LOG_SIZE;
+        mLog[mLogIndex] = msg;
+
+        mLogSize = MIN(mLogSize+1, MAX_LOG_SIZE);
+    }
+}
+
+void NetworkController::ClearLog() {
+    mLogIndex = 0;
+    mLogSize = 0;
+}
+
+const std::string& NetworkController::GetLog() const
+{
+    stringstream s;
+    int index = mLogIndex;
+    for(int i = 0; i<mLogSize;i++)
+    {
+        s << mLog[index];
+
+        index = index - 1 < 0 ? MAX_LOG_SIZE - 1 : index -1;
+    }
+
+    return std::move(s.str());
+}
+
+const string  NetworkController::SendUDPMessage(const string &message)
 {
     //send message
+    std::string returnString = message;
     if (IsInitialized()) {
         const char *messageCharArray = message.c_str();
         int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
         if (sockfd < 0) {
-            perror("ERROR opening socket");
-            return false;
+            returnString = "ERROR opening socket\n";
         }
-
-        if (sendto(sockfd, messageCharArray, message.length(), 0, (struct sockaddr *) &mHostAddress, sizeof(mHostAddress)) < 0) {
-            perror("sendto() failed");
-            return false;
+        else if (sendto(sockfd, messageCharArray, message.length(), 0, (struct sockaddr *) &mHostAddress, sizeof(mHostAddress)) < 0) {
+            returnString = "sendto() failed\n";
         }
-        return true;
     }
     else{
-        return false;
+        returnString += "Host IP or port missing\n";
     }
 
+    return std::move(returnString);
 }
 
 bool NetworkController::IsInitialized() const {
     return (mHostAddress.sin_port != INVALID_PORT) && (mHostAddress.sin_addr.s_addr != 0);
 }
 
-NetworkController::NetworkController()
+NetworkController::NetworkController() : mLogIndex(0), mLogSize(0)
 {
     memset(&mHostAddress, 0 , sizeof(mHostAddress));
 }
@@ -110,4 +141,5 @@ void NetworkController::Save(std::ofstream *file)
         (*file) << "\n";
     }
 }
+
 

@@ -20,8 +20,8 @@ void VideoPlayer::PlayVideo(VIDEO_TYPE videoId)
 {
     if (videoId > VIDEO_TYPE_INVALID && videoId < VIDEO_TYPE_MAX)
     {
-        const std::string message = mCommandNames[COMMAND_TYPE_START] + " " + mVideoNames[videoId];
-        NetworkController::getInstance().SendUDPMessage(message);
+        const std::string message = mCommandNames[COMMAND_TYPE_START] + " " + mVideoNames[videoId] + "\n";
+        NetworkController::getInstance().SendMessage(message);
         mCurrentlyPlaying = videoId;
     }
 }
@@ -30,8 +30,8 @@ void VideoPlayer::StopVideo(VIDEO_TYPE videoId)
 {
     if (videoId > VIDEO_TYPE_INVALID && videoId < VIDEO_TYPE_MAX)
     {
-        const std::string message = mCommandNames[COMMAND_TYPE_STOP] + " " + mVideoNames[videoId];
-        NetworkController::getInstance().SendUDPMessage(message);
+        const std::string message = mCommandNames[COMMAND_TYPE_STOP] + " " + mVideoNames[videoId] + "\n";
+        NetworkController::getInstance().SendMessage(message);
 
         mCurrentlyPlaying = VIDEO_TYPE_INVALID;
     }

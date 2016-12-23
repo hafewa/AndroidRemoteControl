@@ -1,19 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.arc.prith.androidremotecontrol.SettingsActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layout_Log">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="325dp"
+                android:id="@+id/lbl_Log" />
+
+            <Button
+                android:text="Clear Log"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_ClearLog"
+                android:onClick="btn_ClearLog_OnClick"
+                style="@style/Widget.AppCompat.Button.Colored" />
+
+            <Button
+                android:text="Back To Settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_ToSettings"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:onClick="btn_Back_OnClick" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_Settings">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    tools:context="com.arc.prith.androidremotecontrol.SettingsActivity">
+    android:visibility="visible">
 
     <TextView
         android:text="Start Command"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="13dp"
         android:id="@+id/lbl_StartCmd" />
 
@@ -22,111 +61,77 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:layout_below="@+id/lbl_StopCmd"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:id="@+id/txt_StartCmd" />
+
+    <TextView
+        android:text="Stop Command"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lbl_StopCmd" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
         android:id="@+id/txt_StopCmd" />
 
     <TextView
         android:text="Video 1 Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lbl_Vid1Name"
-        android:layout_below="@+id/txt_StopCmd"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/lbl_Vid1Name" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/txt_Vid1Name"
-        android:layout_below="@+id/lbl_Vid1Name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/txt_Vid1Name" />
 
     <TextView
         android:text="Video 2 Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lbl_Vid2Name"
-        android:layout_below="@+id/txt_Vid1Name" />
+        android:id="@+id/lbl_Vid2Name" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/txt_Vid2Name"
-        android:layout_below="@+id/lbl_Vid2Name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/txt_Vid2Name" />
 
     <TextView
         android:text="Video 3 Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lbl_Vid3Name"
-        android:layout_below="@+id/txt_Vid2Name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/lbl_Vid3Name" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/txt_Vid3Name"
-        android:layout_below="@+id/lbl_Vid3Name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/txt_Vid3Name" />
 
     <TextView
         android:text="Host IP Address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lbl_IPAddr"
-        android:layout_below="@+id/txt_Vid3Name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/txt_StartCmd"
-        android:layout_below="@+id/lbl_StartCmd"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="Stop Command"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/lbl_StopCmd"
-        android:layout_below="@+id/txt_StartCmd"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/lbl_IPAddr" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/txt_IPAddr"
-        android:layout_below="@+id/lbl_IPAddr"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:inputType="phone" />
 
     <TextView
         android:text="Host Port"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_IPAddr"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:id="@+id/lbl_Port" />
 
     <EditText
@@ -134,34 +139,32 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:layout_below="@+id/lbl_Port"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/txt_Port"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:id="@+id/txt_Port" />
 
     <Button
         android:text="Save"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_Port"
         android:id="@+id/btn_Save"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:onClick="btn_Save_OnClick" />
 
     <Button
         android:text="Cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_Save"
-        android:layout_centerHorizontal="true"
         android:id="@+id/btn_Cancel"
         style="@style/Widget.AppCompat.Button.Colored"
         android:onClick="btn_Cancel_OnClick" />
 
-</RelativeLayout>
+    <Button
+        android:text="Show Log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_ShowLog"
+        android:onClick="btn_ShowLog_OnClick"
+        style="@style/Widget.AppCompat.Button.Colored" />
+
+</LinearLayout>
+</ScrollView>
+    </RelativeLayout>

@@ -38,9 +38,14 @@ bool PersistentDataManager::LoadPersistentData()
             {
                 mDataMap[line.substr(0, delimLoc)] = line.substr(delimLoc + 1);
             }
+            else
+            {
+                return  false;
+            }
         }
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool PersistentDataManager::SavePersistentData()
@@ -50,6 +55,7 @@ bool PersistentDataManager::SavePersistentData()
         for (Saveable *saveable : mSaveables) {
             saveable->Save(&dataFile);
         }
+        return true;
     }
     return false;
 }

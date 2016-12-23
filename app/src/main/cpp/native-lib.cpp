@@ -7,6 +7,18 @@
 extern "C" {
 
 JNIEXPORT void JNICALL
+Java_com_arc_prith_androidremotecontrol_SettingsActivity_clearLog(JNIEnv *env, jobject instance) {
+
+    NetworkController::getInstance().ClearLog();
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_arc_prith_androidremotecontrol_SettingsActivity_getLog(JNIEnv *env, jobject instance) {
+    const std::string& log =  NetworkController::getInstance().GetLog();
+    return env->NewStringUTF(log.c_str());
+}
+
+JNIEXPORT void JNICALL
 Java_com_arc_prith_androidremotecontrol_SettingsActivity_savePersistentData(JNIEnv *env,jobject instance)
 {
     PersistentDataManager::getInstance().SavePersistentData();
@@ -106,36 +118,28 @@ Java_com_arc_prith_androidremotecontrol_MainActivity_initializeNativeComponents(
     env->ReleaseStringUTFChars(dataFilePath_, dataFilePath);
 }
 
-JNIEXPORT jstring JNICALL
+JNIEXPORT void JNICALL
 Java_com_arc_prith_androidremotecontrol_MainActivity_btnVid1_1OnClick(JNIEnv *env, jobject instance)
 {
-    //todo
     VideoPlayer& player = VideoPlayer::getInstance();
     player.StopCurrentlyPlayingVideo();
     player.PlayVideo(VIDEO_TYPE_1);
-    std::string hello = "Pressed button 1";
-    return env->NewStringUTF(hello.c_str());
 }
 
 
-JNIEXPORT jstring JNICALL
+JNIEXPORT void JNICALL
 Java_com_arc_prith_androidremotecontrol_MainActivity_btnVid2_1OnClick(JNIEnv *env, jobject instance)
 {
     VideoPlayer& player = VideoPlayer::getInstance();
     player.StopCurrentlyPlayingVideo();
     player.PlayVideo(VIDEO_TYPE_2);
-
-    std::string hello = "Pressed button 2";
-    return env->NewStringUTF(hello.c_str());
 }
 
-JNIEXPORT jstring JNICALL
+JNIEXPORT void JNICALL
 Java_com_arc_prith_androidremotecontrol_MainActivity_btnVid3_1OnClick(JNIEnv *env, jobject instance)
 {
     VideoPlayer& player = VideoPlayer::getInstance();
     player.StopCurrentlyPlayingVideo();
     player.PlayVideo(VIDEO_TYPE_3);
-    std::string hello = "Pressed button 3";
-    return env->NewStringUTF(hello.c_str());
 }
 }

@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -16,7 +19,44 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        ScrollView rl = (ScrollView) findViewById(R.id.layout_Log);
+        rl.setVisibility(View.INVISIBLE);
+
+        //set the scroll method of the log textview
+        TextView tv = (TextView) findViewById(R.id.lbl_Log);
+        tv.setMovementMethod(new ScrollingMovementMethod());
+
         initialize();
+    }
+
+    public void btn_ShowLog_OnClick(View v)
+    {
+        ScrollView rl = (ScrollView) findViewById(R.id.layout_Settings);
+        rl.setVisibility(View.INVISIBLE);
+
+        TextView tv = (TextView) findViewById(R.id.lbl_Log);
+        tv.setText(getLog());
+
+        rl = (ScrollView) findViewById(R.id.layout_Log);
+        rl.setVisibility(View.VISIBLE);
+
+    }
+
+    public void btn_ClearLog_OnClick(View v)
+    {
+        clearLog();
+
+        TextView tv = (TextView) findViewById(R.id.lbl_Log);
+        tv.setText(getLog());
+    }
+
+    public void btn_Back_OnClick(View v)
+    {
+        ScrollView rl = (ScrollView) findViewById(R.id.layout_Settings);
+        rl.setVisibility(View.VISIBLE);
+
+        rl = (ScrollView) findViewById(R.id.layout_Log);
+        rl.setVisibility(View.INVISIBLE);
     }
 
     public void btn_Save_OnClick(View v)
@@ -155,7 +195,8 @@ public class SettingsActivity extends AppCompatActivity {
     public native void setVideoName(int id, String name);
     public native void setHostIpAddress(String address);
     public native void setHostPortNumber(int port);
-
+    public native String getLog();
+    public native void clearLog();
     public native void savePersistentData();
 
     static {
