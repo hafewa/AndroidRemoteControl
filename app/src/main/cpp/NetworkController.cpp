@@ -117,7 +117,7 @@ void NetworkController::Init()
 
     data = dataManager.GetData(mPortKey);
 
-    const int port = Helper::parseInteger(data);
+    const int port = Helper::to_int(data);
 
     if(port > 0)
     {

@@ -7,6 +7,7 @@
 #include "helper.h"
 
 const std::string VideoPlayer::mVideoKey = "video";
+const std::string VideoPlayer::mVideoDelayKey = "videodelay";
 const std::string VideoPlayer::mCommandKey = "command";
 
 VideoPlayer& VideoPlayer::getInstance()
@@ -28,7 +29,7 @@ void VideoPlayer::PlayVideo(VIDEO_TYPE videoId)
 
 void VideoPlayer::StopVideo(VIDEO_TYPE videoId)
 {
-    if (videoId > VIDEO_TYPE_INVALID && videoId < VIDEO_TYPE_MAX)
+    if (videoId > VIDEO_TYPE_INVALID && videoId < VIDEO_TYPE_MAX && mCurrentlyPlaying == videoId)
     {
         const std::string message = mCommandNames[COMMAND_TYPE_STOP] + " " + mVideoNames[videoId] + "\n";
         NetworkController::getInstance().SendMessage(message);
@@ -37,11 +38,11 @@ void VideoPlayer::StopVideo(VIDEO_TYPE videoId)
     }
 }
 
-void VideoPlayer::SetVideoName(VIDEO_TYPE vidId, std::string& name)
+void VideoPlayer::SetVideoName(VIDEO_TYPE vidId, const std::string &name)
 {
     mVideoNames[vidId] = name;
 }
-void VideoPlayer::SetCommandName(COMMAND_TYPE cmdId, std::string& name)
+void VideoPlayer::SetCommandName(COMMAND_TYPE cmdId, const std::string &name)
 {
     mCommandNames[cmdId] = name;
 }
@@ -63,6 +64,7 @@ const std::string& VideoPlayer::GetCommandName(COMMAND_TYPE cmdId) const
 
 VideoPlayer::VideoPlayer() :mCurrentlyPlaying(VIDEO_TYPE_INVALID)
 {
+    memset(mVideoDelay, 0 , sizeof(int) * VIDEO_TYPE_MAX);
 }
 
 void VideoPlayer::Init()
@@ -72,8 +74,13 @@ void VideoPlayer::Init()
 
     for(int i = VIDEO_TYPE_INVALID + 1 ; i < VIDEO_TYPE_MAX ; ++i)
     {
-        key = mVideoKey + Helper::to_string(i);
+        std::string temp = Helper::to_string(i);
+        key = mVideoKey + temp;
         mVideoNames[i] = dataManager.GetData(key);
+
+        key = mVideoDelayKey + temp;
+        temp = dataManager.GetData(key);
+        mVideoDelay[i] = Helper::to_int(temp);
     }
 
     for(int i = COMMAND_TYPE_INVALID + 1 ; i < COMMAND_TYPE_MAX ; ++i)
@@ -90,7 +97,11 @@ void VideoPlayer::Save(std::ofstream *saveFile)
         std::string line;
         for(int i = VIDEO_TYPE_INVALID + 1 ; i < VIDEO_TYPE_MAX ; ++i)
         {
-            line = mVideoKey + Helper::to_string(i) + "=" + mVideoNames[i] + "\n";
+            const std::string indexString = Helper::to_string(i);
+            line = mVideoKey + indexString + "=" + mVideoNames[i] + "\n";
+
+            line += mVideoDelayKey + indexString + "=" + Helper::to_string(mVideoDelay[i]) + "\n";
+
             (*saveFile) << line;
         }
 
@@ -101,3 +112,17 @@ void VideoPlayer::Save(std::ofstream *saveFile)
         }
     }
 }
+
+int VideoPlayer::GetVideoDelay(VIDEO_TYPE vidId) const {
+    return mVideoDelay[vidId];
+}
+
+void VideoPlayer::SetVideoDelay(VIDEO_TYPE vidId, int delay) {
+    mVideoDelay[vidId] = delay;
+}
+
+
+
+
+
+

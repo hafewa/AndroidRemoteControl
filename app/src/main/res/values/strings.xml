@@ -7,4 +7,7 @@
     <string name="adminPass">password</string>
     <string name="data_file_name">datafile.bin</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="vid1ID">0</string>
+    <string name="vid2ID">1</string>
+    <string name="vid3ID">2</string>
 </resources>

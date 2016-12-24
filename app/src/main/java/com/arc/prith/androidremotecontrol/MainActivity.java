@@ -1,12 +1,16 @@
 package com.arc.prith.androidremotecontrol;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,23 +25,57 @@ public class MainActivity extends AppCompatActivity {
         //hide admin credentials
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_AdminCredentials);
         layout.setVisibility(View.INVISIBLE);
+        mCurrentlyPlaying = false;
+    }
+
+    public MainActivity()
+    {
+        mCurrentlyPlaying = false;
+        mPlaylist = new ArrayDeque<>();
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
     }
 
-    public void btn_Vid1_OnClick(View v) {
-        btnVid1_OnClick();
+    private void stopVideoCommand(int vidId)
+    {
+        stopVideo(vidId);
+        mCurrentlyPlaying = false;
     }
 
-    public void btn_Vid2_OnClick(View v) {
-        btnVid2_OnClick();
+    private void playNextVideo()
+    {
+        if(mPlaylist.size() > 0) {
+            final int vidId = mPlaylist.remove();
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    stopVideoCommand(vidId);
+                    playNextVideo();
+                }
+            }, getVideoDelay(vidId));
+            playVideo(vidId);
+            mCurrentlyPlaying = true;
+        }
     }
 
-    public void btn_Vid3_OnClick(View v) {
-        btnVid3_OnClick();
+    public void btn_Vid1_OnClick(View v)
+    {
+        queueVideoCommand(Integer.parseInt(getText(R.string.vid1ID).toString()));
+    }
+
+    public void btn_Vid2_OnClick(View v)
+    {
+        queueVideoCommand(Integer.parseInt(getText(R.string.vid2ID).toString()));
+    }
+
+    public void btn_Vid3_OnClick(View v)
+    {
+        queueVideoCommand(Integer.parseInt(getText(R.string.vid3ID).toString()));
     }
 
     public void btn_RevealAdminCredentials_OnClick(View v)
@@ -82,15 +120,27 @@ public class MainActivity extends AppCompatActivity {
         return loginLowerCase.equals(getString(R.string.admin).toLowerCase()) && password.equals(getString(R.string.adminPass));
     }
 
+    private void queueVideoCommand(final int vidId)
+    {
+        mPlaylist.add(vidId);
 
+        if(!mCurrentlyPlaying)
+        {
+            playNextVideo();
+        }
+    }
+
+    Queue<Integer> mPlaylist;
+    boolean mCurrentlyPlaying;
 
     public native void initializeNativeComponents(String dataFilePath);
 
-    public native void btnVid1_OnClick();
+    public native void playVideo(int vidId);
 
-    public native void btnVid2_OnClick();
+    public native void stopVideo(int vidId);
 
-    public native void btnVid3_OnClick();
+    public native int getVideoDelay(int vidId);
+
     static {
         // to support API 17 and lower, load all the native libraries in the order they are linked
         System.loadLibrary("PersistentDataManager");

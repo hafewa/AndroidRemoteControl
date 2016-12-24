@@ -19,7 +19,7 @@ namespace Helper {
         return os.str();
     }
 
-    int parseInteger(const std::string &str) {
+    int to_int(const std::string &str) {
         std::stringstream ss(str);
         int N;
         ss << str;

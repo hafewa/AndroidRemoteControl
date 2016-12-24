@@ -7,6 +7,40 @@
 extern "C" {
 
 JNIEXPORT void JNICALL
+Java_com_arc_prith_androidremotecontrol_MainActivity_stopVideo(JNIEnv *env, jobject instance,
+                                                               jint vidId) {
+
+    VideoPlayer::getInstance().StopVideo(static_cast<VIDEO_TYPE >(vidId));
+
+}
+
+
+JNIEXPORT jint JNICALL
+Java_com_arc_prith_androidremotecontrol_MainActivity_getVideoDelay(JNIEnv *env, jobject instance,
+                                                                   jint vidId) {
+
+    return VideoPlayer::getInstance().GetVideoDelay(static_cast<VIDEO_TYPE >(vidId));
+
+}
+
+JNIEXPORT jint JNICALL
+Java_com_arc_prith_androidremotecontrol_SettingsActivity_getVideoDelay(JNIEnv *env,
+                                                                       jobject instance, jint id) {
+
+    return VideoPlayer::getInstance().GetVideoDelay(static_cast<VIDEO_TYPE >(id));
+
+}
+
+JNIEXPORT void JNICALL
+Java_com_arc_prith_androidremotecontrol_SettingsActivity_setVideoDelay(JNIEnv *env,
+                                                                       jobject instance, jint id,
+                                                                       jint delayInMs) {
+
+    VideoPlayer::getInstance().SetVideoDelay(static_cast<VIDEO_TYPE >(id), static_cast<int>(delayInMs));
+
+}
+
+JNIEXPORT void JNICALL
 Java_com_arc_prith_androidremotecontrol_SettingsActivity_clearLog(JNIEnv *env, jobject instance) {
 
     NetworkController::getInstance().ClearLog();
@@ -119,27 +153,9 @@ Java_com_arc_prith_androidremotecontrol_MainActivity_initializeNativeComponents(
 }
 
 JNIEXPORT void JNICALL
-Java_com_arc_prith_androidremotecontrol_MainActivity_btnVid1_1OnClick(JNIEnv *env, jobject instance)
+Java_com_arc_prith_androidremotecontrol_MainActivity_playVideo(JNIEnv *env, jobject instance, jint vidId)
 {
     VideoPlayer& player = VideoPlayer::getInstance();
-    player.StopCurrentlyPlayingVideo();
-    player.PlayVideo(VIDEO_TYPE_1);
-}
-
-
-JNIEXPORT void JNICALL
-Java_com_arc_prith_androidremotecontrol_MainActivity_btnVid2_1OnClick(JNIEnv *env, jobject instance)
-{
-    VideoPlayer& player = VideoPlayer::getInstance();
-    player.StopCurrentlyPlayingVideo();
-    player.PlayVideo(VIDEO_TYPE_2);
-}
-
-JNIEXPORT void JNICALL
-Java_com_arc_prith_androidremotecontrol_MainActivity_btnVid3_1OnClick(JNIEnv *env, jobject instance)
-{
-    VideoPlayer& player = VideoPlayer::getInstance();
-    player.StopCurrentlyPlayingVideo();
-    player.PlayVideo(VIDEO_TYPE_3);
+    player.PlayVideo(static_cast<VIDEO_TYPE >(vidId));
 }
 }

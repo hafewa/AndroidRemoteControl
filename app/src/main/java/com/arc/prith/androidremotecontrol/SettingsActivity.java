@@ -66,7 +66,10 @@ public class SettingsActivity extends AppCompatActivity {
             return;
         }
 
-        //todo check for data error
+        final int vid1ID = Integer.parseInt(getText(R.string.vid1ID).toString());
+        final int vid2ID = Integer.parseInt(getText(R.string.vid2ID).toString());
+        final int vid3ID = Integer.parseInt(getText(R.string.vid3ID).toString());
+
         EditText et = (EditText) findViewById(R.id.txt_StartCmd);
         setStartCommandString(et.getText().toString());
 
@@ -74,13 +77,22 @@ public class SettingsActivity extends AppCompatActivity {
         setStopCommandString(et.getText().toString());
 
         et = (EditText) findViewById(R.id.txt_Vid1Name);
-        setVideoName(0, et.getText().toString());
+        setVideoName(vid1ID, et.getText().toString());
 
         et = (EditText) findViewById(R.id.txt_Vid2Name);
-        setVideoName(1,et.getText().toString());
+        setVideoName(vid2ID,et.getText().toString());
 
         et = (EditText) findViewById(R.id.txt_Vid3Name);
-        setVideoName(2,et.getText().toString());
+        setVideoName(vid3ID,et.getText().toString());
+
+        et = (EditText) findViewById(R.id.txt_Vid1Delay);
+        setVideoDelay(vid1ID, Integer.parseInt(et.getText().toString()));
+
+        et = (EditText) findViewById(R.id.txt_Vid2Delay);
+        setVideoDelay(vid2ID,Integer.parseInt(et.getText().toString()));
+
+        et = (EditText) findViewById(R.id.txt_Vid3Delay);
+        setVideoDelay(vid3ID,Integer.parseInt(et.getText().toString()));
 
         et = (EditText) findViewById(R.id.txt_IPAddr);
         setHostIpAddress(et.getText().toString());
@@ -156,11 +168,24 @@ public class SettingsActivity extends AppCompatActivity {
         et = (EditText) findViewById(R.id.txt_Port);
         et.addTextChangedListener(tw);
 
+        et = (EditText) findViewById(R.id.txt_Vid1Delay);
+        et.addTextChangedListener(tw);
+
+        et = (EditText) findViewById(R.id.txt_Vid2Delay);
+        et.addTextChangedListener(tw);
+
+        et = (EditText) findViewById(R.id.txt_Vid3Delay);
+        et.addTextChangedListener(tw);
+
         (findViewById(R.id.btn_Save)).setEnabled(false);
     }
 
     private void fillFormData()
     {
+        final int vid1ID = Integer.parseInt(getText(R.string.vid1ID).toString());
+        final int vid2ID = Integer.parseInt(getText(R.string.vid2ID).toString());
+        final int vid3ID = Integer.parseInt(getText(R.string.vid3ID).toString());
+
         EditText et = (EditText) findViewById(R.id.txt_StartCmd);
         et.setText(getStartCommandString());
 
@@ -168,13 +193,22 @@ public class SettingsActivity extends AppCompatActivity {
         et.setText(getStopCommandString());
 
         et = (EditText) findViewById(R.id.txt_Vid1Name);
-        et.setText(getVideoName(0));
+        et.setText(getVideoName(vid1ID));
 
         et = (EditText) findViewById(R.id.txt_Vid2Name);
-        et.setText(getVideoName(1));
+        et.setText(getVideoName(vid2ID));
 
         et = (EditText) findViewById(R.id.txt_Vid3Name);
-        et.setText(getVideoName(2));
+        et.setText(getVideoName(vid3ID));
+
+        et = (EditText) findViewById(R.id.txt_Vid1Delay);
+        et.setText(String.valueOf( getVideoDelay(vid1ID)));
+
+        et = (EditText) findViewById(R.id.txt_Vid2Delay);
+        et.setText(String.valueOf(getVideoDelay(vid2ID)));
+
+        et = (EditText) findViewById(R.id.txt_Vid3Delay);
+        et.setText(String.valueOf(getVideoDelay(vid3ID)));
 
         et = (EditText) findViewById(R.id.txt_IPAddr);
         et.setText(getHostIpAddress());
@@ -186,6 +220,7 @@ public class SettingsActivity extends AppCompatActivity {
     public native String getStartCommandString();
     public native String getStopCommandString();
     public native String getVideoName(int id);
+    public native int getVideoDelay(int id);
     public native String getHostIpAddress();
     public native int getHostPortNumber();
 
@@ -193,15 +228,13 @@ public class SettingsActivity extends AppCompatActivity {
     public native void setStartCommandString(String cmd);
     public native void setStopCommandString(String cmd);
     public native void setVideoName(int id, String name);
+    public native void setVideoDelay(int id, int delayInMs);
     public native void setHostIpAddress(String address);
     public native void setHostPortNumber(int port);
     public native String getLog();
     public native void clearLog();
     public native void savePersistentData();
 
-    static {
-        System.loadLibrary("native-lib");
-    }
 
     private boolean mTextChanged;
 

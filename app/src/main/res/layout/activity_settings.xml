@@ -3,12 +3,14 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.arc.prith.androidremotecontrol.SettingsActivity">
+    tools:context="com.arc.prith.androidremotecontrol.SettingsActivity"
+    android:background="@color/background">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/layout_Log">
+        android:id="@+id/layout_Log"
+        android:visibility="invisible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +55,6 @@
         android:text="Start Command"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
         android:id="@+id/lbl_StartCmd" />
 
     <EditText
@@ -76,44 +77,134 @@
         android:ems="10"
         android:id="@+id/txt_StopCmd" />
 
-    <TextView
-        android:text="Video 1 Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/lbl_Vid1Name" />
-
-    <EditText
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/txt_Vid1Name" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="Video 2 Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/lbl_Vid2Name" />
+        <TextView
+            android:text="Video 1 Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_Vid1Name"
+            android:layout_weight="1" />
 
-    <EditText
+        <TextView
+            android:text="Video 1 Delay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_Vid1Delay"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/txt_Vid2Name" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="Video 3 Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/lbl_Vid3Name" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/txt_Vid1Name"
+            android:layout_weight="1" />
 
-    <EditText
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/txt_Vid1Delay"
+            android:layout_weight="1"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/txt_Vid3Name" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="Video 2 Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_Vid2Name"
+            android:layout_weight="1" />
+
+        <TextView
+            android:text="Video 2 Delay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_Vid2Delay"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/txt_Vid2Name"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/txt_Vid2Delay"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="Video 3 Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_Vid3Name"
+            android:layout_weight="1" />
+
+        <TextView
+            android:text="Video 3 Delay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_Vid3Delay"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/txt_Vid3Name"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.EditText" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/txt_Vid3Delay"
+            android:layout_weight="1"
+            android:inputType="number" />
+    </LinearLayout>
 
     <TextView
         android:text="Host IP Address"
@@ -135,7 +226,7 @@
         android:id="@+id/lbl_Port" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
