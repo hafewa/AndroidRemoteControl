@@ -15,20 +15,20 @@ class NetworkController : public Saveable{
 
 public:
     static NetworkController &getInstance();
-    void SendMessage(const std::string& message);
+    bool SendMessage(const std::string &message);
     void Init();
     void SetHostAddress(const std::string &ip);
     void SetHostPort(uint16_t port);
     std::string GetCurrentHostIP() const;
     uint16_t GetCurrentHostPort() const;
     bool IsInitialized() const;
-    const std::string& GetLog() const;
+    const std::string GetLog() const;
     void ClearLog();
     virtual void Save(std::ofstream* file) override ;
 private:
 
     NetworkController();
-    const std::string  SendUDPMessage(const std::string &message);
+    bool SendUDPMessage(const std::string &message, std::string &status);
     void LogMessage(const std::string& msg);
     static const int INVALID_PORT = 0;
     sockaddr_in mHostAddress;

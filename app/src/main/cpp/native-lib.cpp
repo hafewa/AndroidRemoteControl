@@ -6,11 +6,11 @@
 
 extern "C" {
 
-JNIEXPORT void JNICALL
+JNIEXPORT bool JNICALL
 Java_com_arc_prith_androidremotecontrol_MainActivity_stopVideo(JNIEnv *env, jobject instance,
                                                                jint vidId) {
 
-    VideoPlayer::getInstance().StopVideo(static_cast<VIDEO_TYPE >(vidId));
+    return VideoPlayer::getInstance().StopVideo(static_cast<VIDEO_TYPE >(vidId));
 
 }
 
@@ -48,8 +48,8 @@ Java_com_arc_prith_androidremotecontrol_SettingsActivity_clearLog(JNIEnv *env, j
 
 JNIEXPORT jstring JNICALL
 Java_com_arc_prith_androidremotecontrol_SettingsActivity_getLog(JNIEnv *env, jobject instance) {
-    const std::string& log =  NetworkController::getInstance().GetLog();
-    return env->NewStringUTF(log.c_str());
+    const std::string log =  NetworkController::getInstance().GetLog();
+    return env->NewStringUTF( log.c_str());
 }
 
 JNIEXPORT void JNICALL
@@ -102,7 +102,7 @@ Java_com_arc_prith_androidremotecontrol_SettingsActivity_setHostIpAddress(JNIEnv
 JNIEXPORT void JNICALL
 Java_com_arc_prith_androidremotecontrol_SettingsActivity_setHostPortNumber(JNIEnv *env, jobject instance, jint port)
 {
-    NetworkController::getInstance().SetHostPort(port);
+    NetworkController::getInstance().SetHostPort(static_cast<uint16_t >(port));
 }
 
 JNIEXPORT jstring JNICALL
@@ -152,10 +152,10 @@ Java_com_arc_prith_androidremotecontrol_MainActivity_initializeNativeComponents(
     env->ReleaseStringUTFChars(dataFilePath_, dataFilePath);
 }
 
-JNIEXPORT void JNICALL
+JNIEXPORT bool JNICALL
 Java_com_arc_prith_androidremotecontrol_MainActivity_playVideo(JNIEnv *env, jobject instance, jint vidId)
 {
     VideoPlayer& player = VideoPlayer::getInstance();
-    player.PlayVideo(static_cast<VIDEO_TYPE >(vidId));
+    return player.PlayVideo(static_cast<VIDEO_TYPE >(vidId));
 }
 }

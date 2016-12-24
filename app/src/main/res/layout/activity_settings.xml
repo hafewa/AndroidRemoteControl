@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/layout_Log"
-        android:visibility="invisible">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,8 +19,11 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="325dp"
-                android:id="@+id/lbl_Log" />
+                android:layout_height="match_parent"
+                android:id="@+id/lbl_Log"
+                android:minLines="28"
+                android:maxLines="28"
+                android:scrollbars = "vertical"/>
 
             <Button
                 android:text="Clear Log"
@@ -241,7 +244,7 @@
         android:onClick="btn_Save_OnClick" />
 
     <Button
-        android:text="Cancel"
+        android:text="Back To User Screen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_Cancel"

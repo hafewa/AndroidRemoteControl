@@ -22,9 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         initializeNativeComponents(getApplicationContext().getFilesDir() + "/" + getString(R.string.data_file_name));
 
-        //hide admin credentials
-        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_AdminCredentials);
-        layout.setVisibility(View.INVISIBLE);
+        hideAdminCredentials();
         mCurrentlyPlaying = false;
     }
 
@@ -42,8 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void stopVideoCommand(int vidId)
     {
-        stopVideo(vidId);
-        mCurrentlyPlaying = false;
+        if(!stopVideo(vidId))
+        {
+            Toast.makeText(this, "ERROR in playing video. Please contact system admin", Toast.LENGTH_LONG).show();
+        }
+        else {
+            mCurrentlyPlaying = false;
+        }
     }
 
     private void playNextVideo()
@@ -58,8 +61,15 @@ public class MainActivity extends AppCompatActivity {
                     playNextVideo();
                 }
             }, getVideoDelay(vidId));
-            playVideo(vidId);
-            mCurrentlyPlaying = true;
+
+            if(!playVideo(vidId))
+            {
+                Toast.makeText(this, "ERROR in playing video. Please contact system admin", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                mCurrentlyPlaying = true;
+            }
         }
     }
 
@@ -80,11 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void btn_RevealAdminCredentials_OnClick(View v)
     {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_AdminCredentials);
-        layout.setVisibility(View.VISIBLE);
-
-        layout = (LinearLayout) findViewById(R.id.layout_UserInterface);
-        layout.setVisibility(View.INVISIBLE);
+        revealAdminCredentials();
     }
 
     public void btn_AdminLogIn_OnClick(View v)
@@ -96,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
         {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-            finish();
+            resetCredentials();
+            hideAdminCredentials();
         }
         else
         {
@@ -106,11 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void btn_HideAdminCredentials_OnClick(View v)
     {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_AdminCredentials);
-        layout.setVisibility(View.INVISIBLE);
-
-        layout = (LinearLayout) findViewById(R.id.layout_UserInterface);
-        layout.setVisibility(View.VISIBLE);
+        hideAdminCredentials();
     }
 
     public boolean verifyCredentials(String login, String password)
@@ -118,6 +121,35 @@ public class MainActivity extends AppCompatActivity {
         // currently we are only checking the values against the string resources
         String loginLowerCase = login.trim().toLowerCase();
         return loginLowerCase.equals(getString(R.string.admin).toLowerCase()) && password.equals(getString(R.string.adminPass));
+    }
+
+    private void revealAdminCredentials()
+    {
+        resetCredentials();
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_AdminCredentials);
+        layout.setVisibility(View.VISIBLE);
+
+        layout = (LinearLayout) findViewById(R.id.layout_UserInterface);
+        layout.setVisibility(View.INVISIBLE);
+    }
+
+    private void hideAdminCredentials()
+    {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_AdminCredentials);
+        layout.setVisibility(View.INVISIBLE);
+
+        layout = (LinearLayout) findViewById(R.id.layout_UserInterface);
+        layout.setVisibility(View.VISIBLE);
+    }
+
+    private void resetCredentials()
+    {
+
+        EditText login = (EditText) findViewById(R.id.txt_loginID);
+        EditText password = (EditText) findViewById(R.id.txt_Password);
+
+        login.setText("");
+        password.setText("");
     }
 
     private void queueVideoCommand(final int vidId)
@@ -135,9 +167,9 @@ public class MainActivity extends AppCompatActivity {
 
     public native void initializeNativeComponents(String dataFilePath);
 
-    public native void playVideo(int vidId);
+    public native boolean playVideo(int vidId);
 
-    public native void stopVideo(int vidId);
+    public native boolean stopVideo(int vidId);
 
     public native int getVideoDelay(int vidId);
 

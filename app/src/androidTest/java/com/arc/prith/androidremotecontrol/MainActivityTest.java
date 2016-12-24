@@ -79,7 +79,7 @@ public class MainActivityTest {
         onView(withId(R.id.btn_ClearLog)).check(matches(isCompletelyDisplayed()));
 
         onView(withId(R.id.btn_ClearLog)).perform(click());
-        onView(withId(R.id.lbl_Log)).check(matches(withText("")));
+        onView(withId(R.id.lbl_Log)).check(matches(withText(" ")));
         onView(withId(R.id.btn_ToSettings)).perform(click());
     }
 
@@ -108,7 +108,7 @@ public class MainActivityTest {
         onView(withId(R.id.btn_ClearLog)).perform(click());
 
         //the clear log button should empty the log
-        onView(withId(R.id.lbl_Log)).check(matches(withText("")));
+        onView(withId(R.id.lbl_Log)).check(matches(withText(" ")));
     }
 
 }

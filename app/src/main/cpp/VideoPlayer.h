@@ -19,8 +19,8 @@ public:
 
     static VideoPlayer& getInstance();
 
-    void PlayVideo(VIDEO_TYPE videoId);
-    void StopVideo(VIDEO_TYPE videoId);
+    bool PlayVideo(VIDEO_TYPE videoId);
+    bool StopVideo(VIDEO_TYPE videoId);
     void StopCurrentlyPlayingVideo();
     void Init();
     void SetVideoName(VIDEO_TYPE vidId, const std::string &name);

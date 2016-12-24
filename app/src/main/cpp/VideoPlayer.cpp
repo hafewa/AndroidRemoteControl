@@ -17,25 +17,30 @@ VideoPlayer& VideoPlayer::getInstance()
     return player;
 }
 
-void VideoPlayer::PlayVideo(VIDEO_TYPE videoId)
+bool VideoPlayer::PlayVideo(VIDEO_TYPE videoId)
 {
+    bool videoPlayed = false;
     if (videoId > VIDEO_TYPE_INVALID && videoId < VIDEO_TYPE_MAX)
     {
         const std::string message = mCommandNames[COMMAND_TYPE_START] + " " + mVideoNames[videoId] + "\n";
-        NetworkController::getInstance().SendMessage(message);
+        videoPlayed = NetworkController::getInstance().SendMessage(message);
         mCurrentlyPlaying = videoId;
     }
+    return videoPlayed;
 }
 
-void VideoPlayer::StopVideo(VIDEO_TYPE videoId)
+bool VideoPlayer::StopVideo(VIDEO_TYPE videoId)
 {
+    bool videoStopped = false;
     if (videoId > VIDEO_TYPE_INVALID && videoId < VIDEO_TYPE_MAX && mCurrentlyPlaying == videoId)
     {
         const std::string message = mCommandNames[COMMAND_TYPE_STOP] + " " + mVideoNames[videoId] + "\n";
-        NetworkController::getInstance().SendMessage(message);
+        videoStopped = NetworkController::getInstance().SendMessage(message);
 
         mCurrentlyPlaying = VIDEO_TYPE_INVALID;
     }
+
+    return videoStopped;
 }
 
 void VideoPlayer::SetVideoName(VIDEO_TYPE vidId, const std::string &name)

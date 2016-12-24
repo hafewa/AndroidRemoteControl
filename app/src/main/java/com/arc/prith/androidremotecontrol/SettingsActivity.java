@@ -70,40 +70,47 @@ public class SettingsActivity extends AppCompatActivity {
         final int vid2ID = Integer.parseInt(getText(R.string.vid2ID).toString());
         final int vid3ID = Integer.parseInt(getText(R.string.vid3ID).toString());
 
-        EditText et = (EditText) findViewById(R.id.txt_StartCmd);
-        setStartCommandString(et.getText().toString());
+        try {
 
-        et = (EditText) findViewById(R.id.txt_StopCmd);
-        setStopCommandString(et.getText().toString());
+            EditText et = (EditText) findViewById(R.id.txt_StartCmd);
+            setStartCommandString(et.getText().toString());
 
-        et = (EditText) findViewById(R.id.txt_Vid1Name);
-        setVideoName(vid1ID, et.getText().toString());
+            et = (EditText) findViewById(R.id.txt_StopCmd);
+            setStopCommandString(et.getText().toString());
 
-        et = (EditText) findViewById(R.id.txt_Vid2Name);
-        setVideoName(vid2ID,et.getText().toString());
+            et = (EditText) findViewById(R.id.txt_Vid1Name);
+            setVideoName(vid1ID, et.getText().toString());
 
-        et = (EditText) findViewById(R.id.txt_Vid3Name);
-        setVideoName(vid3ID,et.getText().toString());
+            et = (EditText) findViewById(R.id.txt_Vid2Name);
+            setVideoName(vid2ID, et.getText().toString());
 
-        et = (EditText) findViewById(R.id.txt_Vid1Delay);
-        setVideoDelay(vid1ID, Integer.parseInt(et.getText().toString()));
+            et = (EditText) findViewById(R.id.txt_Vid3Name);
+            setVideoName(vid3ID, et.getText().toString());
 
-        et = (EditText) findViewById(R.id.txt_Vid2Delay);
-        setVideoDelay(vid2ID,Integer.parseInt(et.getText().toString()));
+            et = (EditText) findViewById(R.id.txt_Vid1Delay);
+            setVideoDelay(vid1ID, Integer.parseInt(et.getText().toString()));
 
-        et = (EditText) findViewById(R.id.txt_Vid3Delay);
-        setVideoDelay(vid3ID,Integer.parseInt(et.getText().toString()));
+            et = (EditText) findViewById(R.id.txt_Vid2Delay);
+            setVideoDelay(vid2ID, Integer.parseInt(et.getText().toString()));
 
-        et = (EditText) findViewById(R.id.txt_IPAddr);
-        setHostIpAddress(et.getText().toString());
+            et = (EditText) findViewById(R.id.txt_Vid3Delay);
+            setVideoDelay(vid3ID, Integer.parseInt(et.getText().toString()));
 
-        et = (EditText) findViewById(R.id.txt_Port);
-        setHostPortNumber(Integer.parseInt(et.getText().toString()));
+            et = (EditText) findViewById(R.id.txt_IPAddr);
+            setHostIpAddress(et.getText().toString());
 
-        savePersistentData();
+            et = (EditText) findViewById(R.id.txt_Port);
+            setHostPortNumber(Integer.parseInt(et.getText().toString()));
 
-        Toast.makeText(this, "Data Saved Successfully", Toast.LENGTH_SHORT).show();
-        returnToUserInterface();
+            savePersistentData();
+
+            Toast.makeText(this, "Data Saved Successfully", Toast.LENGTH_SHORT).show();
+            (findViewById(R.id.btn_Save)).setEnabled(false);
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(this, "ERROR in saving data!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void data_Changed()

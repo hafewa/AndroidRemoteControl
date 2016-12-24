@@ -13,17 +13,20 @@ using namespace std;
 const std::string NetworkController::mIpAddrKey = "ipaddr";
 const std::string NetworkController::mPortKey = "port";
 
-void NetworkController::SendMessage(const std::string &message) {
-    LogMessage(SendUDPMessage(message));
+bool NetworkController::SendMessage(const std::string &message) {
+    string msgStatus;
+    const bool messageSendSuccessful = SendUDPMessage(message, msgStatus);
+    LogMessage(msgStatus);
+    return messageSendSuccessful;
 }
 
 void NetworkController::LogMessage(const std::string &msg)
 {
     if(msg.length() > 0 ) {
-        mLogIndex = (mLogIndex + 1) % MAX_LOG_SIZE;
         mLog[mLogIndex] = msg;
 
-        mLogSize = MIN(mLogSize+1, MAX_LOG_SIZE);
+        mLogIndex = static_cast<uint16_t >((mLogIndex + 1) % MAX_LOG_SIZE);
+        mLogSize = static_cast<uint16_t >(MIN(mLogSize+1, MAX_LOG_SIZE));
     }
 }
 
@@ -32,39 +35,47 @@ void NetworkController::ClearLog() {
     mLogSize = 0;
 }
 
-const std::string& NetworkController::GetLog() const
+const string NetworkController::GetLog() const
 {
+    if(mLogSize == 0)
+    {
+        return " ";
+    }
+
     stringstream s;
     int index = mLogIndex;
     for(int i = 0; i<mLogSize;i++)
     {
-        s << mLog[index];
-
         index = index - 1 < 0 ? MAX_LOG_SIZE - 1 : index -1;
+        s << mLog[index];
     }
 
     return std::move(s.str());
 }
 
-const string  NetworkController::SendUDPMessage(const string &message)
+bool  NetworkController::SendUDPMessage(const string &message, string &status)
 {
     //send message
-    std::string returnString = message;
     if (IsInitialized()) {
         const char *messageCharArray = message.c_str();
         int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
         if (sockfd < 0) {
-            returnString = "ERROR opening socket\n";
+            status = "ERROR opening socket\n";
         }
         else if (sendto(sockfd, messageCharArray, message.length(), 0, (struct sockaddr *) &mHostAddress, sizeof(mHostAddress)) < 0) {
-            returnString = "sendto() failed\n";
+            status = "sendto() failed\n";
+        }
+        else
+        {
+            status = message;
+            return true;
         }
     }
     else{
-        returnString += "Host IP or port missing\n";
+        status = "Host IP or port missing\n";
     }
 
-    return std::move(returnString);
+    return false;
 }
 
 bool NetworkController::IsInitialized() const {
